@@ -9,6 +9,7 @@ using Microsoft.Office.Tools.Word;
 using LanguageTool.WordAddin.Business;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace LanguageTool.WordAddin
 {
@@ -18,8 +19,19 @@ namespace LanguageTool.WordAddin
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-           
+            this.Application.WindowActivate += Application_WindowActivate;
         }
+
+        private async void Application_WindowActivate(Word.Document Doc, Word.Window Wn)
+        {
+            if (await ServerUpdater.DoesUpdateExist())
+            {
+                await ServerUpdater.GetUpdatedVersion();
+            }
+            this.Application.WindowActivate -= Application_WindowActivate;
+        }
+
+      
 
         private async void Application_DocumentOpen(Word.Document Doc)
         {
@@ -29,25 +41,9 @@ namespace LanguageTool.WordAddin
             }
         }
 
-        private void InitializeCustom()
-        {
-           // initialized = true;
-            Globals.ThisAddIn.Application.Startup += Application_Startup;
-          //  Globals.ThisAddIn.Application.DocumentOpen += Application_DocumentOpen;
-        }
-
-        private  async void Application_Startup()
-        {            
-        if (await ServerUpdater.DoesUpdateExist())
-        {
-            await ServerUpdater.GetUpdatedVersion();
-        } 
-            
-        }
-
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
-            Globals.ThisAddIn.Application.Startup -= Application_Startup;
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
         }
 
         #region VSTO generated code

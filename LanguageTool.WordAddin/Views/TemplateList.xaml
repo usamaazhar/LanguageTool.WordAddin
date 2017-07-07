@@ -7,7 +7,6 @@
              xmlns:local="clr-namespace:LanguageTool.WordAddin.Views"
              mc:Ignorable="d"  
              d:DesignHeight="500" d:DesignWidth="250"
-             MinWidth="300"
              d:DataContext="{d:DesignInstance {x:Type ViewModels:TemplateViewModel}, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
 
@@ -110,9 +109,11 @@
                                 <Setter Property="Fill" TargetName="arrow" Value="{StaticResource Expander.MouseOver.Arrow.Fill}"/>
                                 <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Expander.MouseOver.Arrow.Fill}"/>
                             </Trigger>
-                            --><!--<Trigger Property="IsEnabled" Value="false">
+                            -->
+        <!--<Trigger Property="IsEnabled" Value="false">
                                 
-                            </Trigger>--><!--
+                            </Trigger>-->
+        <!--
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -138,48 +139,34 @@
         </Style>-->
     </UserControl.Resources>
 
-    <Grid Background="#FFF6F6F6">
-
+    <Grid>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="300"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="8"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <ListView x:Name="SnippetsList" ItemsSource="{Binding SnippetItems}" SelectedItem="{Binding SelectedSnippet, Mode=TwoWay}"
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListView x:Name="SnippetsList" ItemsSource="{Binding SnippetItems}" SelectedItem="{Binding SelectedSnippet, Mode=TwoWay}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           ScrollViewer.CanContentScroll="False"
                           BorderThickness="0,0,0,1" BorderBrush="#FFD4D4D4">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="{Binding Width, RelativeSource={RelativeSource AncestorType=ListView}}" Margin="0,0,0,8">
-                                <ContentControl Style="{StaticResource ExpanderStyle}" Margin="4,0" HorizontalAlignment="Center">
-                                    <TextBlock Text="{Binding Body}" TextWrapping="Wrap" />
-                                </ContentControl>
-                                <!--<Expander Width="300" Header="{Binding Name}" IsExpanded="{Binding IsExpanded}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="{Binding Width, RelativeSource={RelativeSource AncestorType=ListView}}" Margin="0,0,0,8">
+                            <ContentControl Style="{StaticResource ExpanderStyle}" Margin="4,0" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Body}" TextWrapping="Wrap" />
+                            </ContentControl>
+                            <!--<Expander Width="300" Header="{Binding Name}" IsExpanded="{Binding IsExpanded}">
                             <TextBlock Text="{Binding Body}" TextWrapping="Wrap"/>
                         </Expander>-->
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button Grid.Row="2"  Content="Insert" 
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Grid.Row="2"  Content="Insert" 
                         Command="{Binding InsertCommand}"
                         CommandParameter="{Binding SelectedItem, ElementName=SnippetsList}"
                         HorizontalAlignment="Right" Padding="8,1,8,2" Margin="0,0,8,8" IsEnabled="{Binding SelectedItem, TargetNullValue=False, ElementName=SnippetsList}" />
-            </Grid>
-            <GridSplitter Grid.Column="1" Width="4" BorderThickness="1,0" 
-                          VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Background="#FF686868" BorderBrush="#FF3F3F46" >
-            </GridSplitter>
-            <Grid Grid.Column="2">
-                <TextBlock Text="{Binding SelectedText}" VerticalAlignment="Center" Margin="24,0" TextWrapping="Wrap"/>
-            </Grid>
         </Grid>
     </Grid>
     <!--<Grid Background="Transparent">

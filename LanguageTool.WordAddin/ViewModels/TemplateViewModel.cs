@@ -2,6 +2,7 @@
 using LanguageTool.WordAddin.Common;
 using LanguageTool.WordAddin.Models;
 using LanguageTool.WordAddin.Properties;
+using Microsoft.Office.Interop.Word;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -60,8 +61,21 @@ namespace LanguageTool.WordAddin.ViewModels
             }
         }
 
-        public ICommand InsertCommand => new RelayCommand<SnippetItem>((_) => SelectedText = _.Body);
-
+        public ICommand InsertCommand => 
+            new RelayCommand<SnippetItem>((_) => 
+            {
+                SelectedText = _.Body;
+                InsertTextToCurrentCursor(SelectedText);
+            });
+        private void InsertTextToCurrentCursor(string text)
+        {
+            if (String.IsNullOrWhiteSpace(text))
+                return;
+            Range rng;
+            var selection = Globals.ThisAddIn.Application.Selection;
+            rng = selection.Range;
+            rng.Text = text;
+        }
 
         private string selectedText;
 

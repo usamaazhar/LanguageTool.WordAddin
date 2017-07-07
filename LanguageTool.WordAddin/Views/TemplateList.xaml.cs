@@ -26,12 +26,7 @@ namespace LanguageTool.WordAddin.Views
         TemplateViewModel templateViewModel;
         public TemplateList()
         {
-            
-            
-            //DataContext = templateViewModel;
-            InitializeComponent();
-            //var snippet = new Snippet() { body = "Test", name = "Template1" };
-          
+            InitializeComponent();          
             DataContext = templateViewModel = new TemplateViewModel();
             
         }

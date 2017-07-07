@@ -50,8 +50,6 @@ namespace LanguageTool.WordAddin {
             this.InitializeControls();
             this.InitializeComponents();
             this.InitializeData();
-            this.InitializeCustom();
-
         }
 
         /// 

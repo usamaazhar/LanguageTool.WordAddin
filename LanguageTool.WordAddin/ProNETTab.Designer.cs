@@ -38,7 +38,6 @@
             this.Language_bar = this.Factory.CreateRibbonGroup();
             this.ShowLanguageBar_BTN = this.Factory.CreateRibbonToggleButton();
             this.CheckUpdates_BTN = this.Factory.CreateRibbonButton();
-            this.LanguageListGroup = this.Factory.CreateRibbonGroup();
             this.Pronet_tab.SuspendLayout();
             this.Language_bar.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +45,6 @@
             // Pronet_tab
             // 
             this.Pronet_tab.Groups.Add(this.Language_bar);
-            this.Pronet_tab.Groups.Add(this.LanguageListGroup);
             this.Pronet_tab.Label = "ProNet";
             this.Pronet_tab.Name = "Pronet_tab";
             // 
@@ -69,11 +67,6 @@
             this.CheckUpdates_BTN.Name = "CheckUpdates_BTN";
             this.CheckUpdates_BTN.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CheckUpdates_BTN_Click);
             // 
-            // LanguageListGroup
-            // 
-            this.LanguageListGroup.Label = "LanguageList";
-            this.LanguageListGroup.Name = "LanguageListGroup";
-            // 
             // ProNETTab
             // 
             this.Name = "ProNETTab";
@@ -94,7 +87,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup Language_bar;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton ShowLanguageBar_BTN;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CheckUpdates_BTN;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup LanguageListGroup;
     }
 
     partial class ThisRibbonCollection
