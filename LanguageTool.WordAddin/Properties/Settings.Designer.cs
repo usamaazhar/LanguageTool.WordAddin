@@ -31,5 +31,27 @@ namespace LanguageTool.WordAddin.Properties {
                 return ((string)(this["localStorageFileName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=g" +
+            "et_data_for_onlyoffice_plugin&user_id=")]
+        public string serverBaseURL {
+            get {
+                return ((string)(this["serverBaseURL"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string userID {
+            get {
+                return ((string)(this["userID"]));
+            }
+            set {
+                this["userID"] = value;
+            }
+        }
     }
 }

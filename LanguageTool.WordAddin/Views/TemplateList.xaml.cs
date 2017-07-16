@@ -27,7 +27,7 @@ namespace LanguageTool.WordAddin.Views
         public TemplateList()
         {
             InitializeComponent();          
-            DataContext = templateViewModel = new TemplateViewModel();
+            DataContext = templateViewModel =  TemplateViewModel.GetInstance();
             
         }
     }

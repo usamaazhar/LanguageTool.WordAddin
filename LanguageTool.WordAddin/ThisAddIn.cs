@@ -10,6 +10,7 @@ using LanguageTool.WordAddin.Business;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using LanguageTool.WordAddin.Properties;
 
 namespace LanguageTool.WordAddin
 {
@@ -24,21 +25,18 @@ namespace LanguageTool.WordAddin
 
         private async void Application_WindowActivate(Word.Document Doc, Word.Window Wn)
         {
-            if (await ServerUpdater.DoesUpdateExist())
-            {
-                await ServerUpdater.GetUpdatedVersion();
-            }
             this.Application.WindowActivate -= Application_WindowActivate;
-        }
+            UserInfoForm form = new UserInfoForm();
+            form.ShowDialog();
 
-      
-
-        private async void Application_DocumentOpen(Word.Document Doc)
-        {
+            //Cancel Was Pressed
+            if (String.IsNullOrWhiteSpace(Settings.Default.userID))
+                return;
             if (await ServerUpdater.DoesUpdateExist())
             {
-                await ServerUpdater.GetUpdatedVersion();
+               await  ServerUpdater.GetUpdatedVersion();
             }
+            
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

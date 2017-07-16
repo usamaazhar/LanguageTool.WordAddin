@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:LanguageTool.WordAddin.Views"
              mc:Ignorable="d"  
              d:DesignHeight="500" d:DesignWidth="250"
-             d:DataContext="{d:DesignInstance {x:Type ViewModels:TemplateViewModel}, IsDesignTimeCreatable=True}">
+           >
     <UserControl.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

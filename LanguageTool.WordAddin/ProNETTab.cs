@@ -22,7 +22,6 @@ namespace LanguageTool.WordAddin
         {
             userControl = new BaseUserControl();
             customTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(userControl, m_actionPaneName);
-
             ElementHost host = new ElementHost();
             host.Dock = DockStyle.Fill;
 
@@ -37,8 +36,9 @@ namespace LanguageTool.WordAddin
             if( await ServerUpdater.DoesUpdateExist())
             {
                 CheckUpdates_BTN.Enabled = false;
-                Thread.Sleep(4000);
-               await ServerUpdater.GetUpdatedVersion();
+                UserInfoForm form = new UserInfoForm();
+                var result = form.ShowDialog();
+                await ServerUpdater.GetUpdatedVersion();
                 CheckUpdates_BTN.Enabled = true;
                 return;
             }

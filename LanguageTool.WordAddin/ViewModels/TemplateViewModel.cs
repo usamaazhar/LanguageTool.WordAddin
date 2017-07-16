@@ -24,9 +24,22 @@ namespace LanguageTool.WordAddin.ViewModels
     
     public class TemplateViewModel
     {
-       public TemplateViewModel()
+        private static TemplateViewModel _instance = new TemplateViewModel();
+        private TemplateViewModel()
         {
             LoadSampleData();
+        }
+        public static TemplateViewModel GetInstance()
+        {
+            return _instance;
+        }
+        public void UpdateSnippets ()
+        {
+            SnippetItems.Clear();
+            LoadSampleData();
+            NotifyPropertyChange(nameof(SnippetItems));
+
+
         }
         public ObservableCollection<SnippetItem> SnippetItems { get; set; } 
             = new ObservableCollection<SnippetItem>();
