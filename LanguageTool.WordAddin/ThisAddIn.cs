@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using LanguageTool.WordAddin.Properties;
+using LanguageTool.WordAddin.ViewModels;
 
 namespace LanguageTool.WordAddin
 {
@@ -34,7 +35,13 @@ namespace LanguageTool.WordAddin
                 return;
             if (await ServerUpdater.DoesUpdateExist())
             {
-               await  ServerUpdater.GetUpdatedVersion();
+              if( await ServerUpdater.GetUpdatedVersion())
+                {
+                    var vm = TemplateViewModel.GetInstance();
+                    await Dispatcher.CurrentDispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                      new System.Action(() => vm.UpdateSnippets()));
+                }
             }
             
         }

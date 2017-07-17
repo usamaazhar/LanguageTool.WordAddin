@@ -24,17 +24,26 @@ namespace LanguageTool.WordAddin.ViewModels
     
     public class TemplateViewModel
     {
+        public event Action _updateViewModel;
         private static TemplateViewModel _instance = new TemplateViewModel();
         private TemplateViewModel()
         {
+            //_updateViewModel += TemplateViewModel__updateViewModel;
             LoadSampleData();
         }
+
+        private void TemplateViewModel__updateViewModel()
+        {
+            UpdateSnippets();
+        }
+
         public static TemplateViewModel GetInstance()
         {
             return _instance;
         }
         public void UpdateSnippets ()
         {
+            // _updateViewModel?.Invoke();
             SnippetItems.Clear();
             LoadSampleData();
             NotifyPropertyChange(nameof(SnippetItems));

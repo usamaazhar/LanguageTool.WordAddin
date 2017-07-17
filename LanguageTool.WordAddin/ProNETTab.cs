@@ -10,6 +10,8 @@ using System.Windows.Forms.Integration;
 using LanguageTool.WordAddin.ViewModels;
 using LanguageTool.WordAddin.Business;
 using System.Threading;
+using System.Windows.Threading;
+using LanguageTool.WordAddin.Properties;
 
 namespace LanguageTool.WordAddin
 {
@@ -38,7 +40,19 @@ namespace LanguageTool.WordAddin
                 CheckUpdates_BTN.Enabled = false;
                 UserInfoForm form = new UserInfoForm();
                 var result = form.ShowDialog();
-                await ServerUpdater.GetUpdatedVersion();
+                //Cancel Was Pressed
+                if (String.IsNullOrWhiteSpace(Settings.Default.userID))
+                {
+                    CheckUpdates_BTN.Enabled = true;
+                    return;
+                }
+                if(await ServerUpdater.GetUpdatedVersion())
+                {
+                    var vm = TemplateViewModel.GetInstance();
+                    await Dispatcher.CurrentDispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                      new Action(() => vm.UpdateSnippets()));
+                }
                 CheckUpdates_BTN.Enabled = true;
                 return;
             }

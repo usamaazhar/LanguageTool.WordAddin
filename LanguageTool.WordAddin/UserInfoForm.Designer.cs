@@ -104,7 +104,8 @@
             this.Controls.Add(this.userIDTB);
             this.Controls.Add(this.label1);
             this.Name = "UserInfoForm";
-            this.Text = "UserInfoForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "User Authentication";
             this.ResumeLayout(false);
             this.PerformLayout();
 

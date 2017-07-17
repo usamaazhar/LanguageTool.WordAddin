@@ -41,24 +41,21 @@ namespace LanguageTool.WordAddin.Business
             return true;
         }
 
-        public async static Task GetUpdatedVersion()
+        public async static Task<bool> GetUpdatedVersion()
         {
             var userID = Settings.Default.userID;
             if (String.IsNullOrWhiteSpace(userID))
-                return;
+                return false;
             string updatedJson =  await GetTemplatesFromServer(userID);
             if (UpdatedJsonIsValid(updatedJson))
             {
                if( LocalStorageManager.SaveDataToFile(updatedJson,
                       Settings.Default.localStorageFileName))
                 {
-                    var vm = TemplateViewModel.GetInstance();
-
-                   await Dispatcher.CurrentDispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                      new Action(() => vm.UpdateSnippets()));
+                    return true;
                 }
             }
+            return false;
         }
         public async static Task<string> GetTemplatesFromServer(string userID)
         {
