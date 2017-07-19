@@ -18,17 +18,16 @@ namespace LanguageTool.WordAddin.Business
             {
                 using (var stream = new IsolatedStorageFileStream(filename, FileMode.Create, GetStore()))
                 using (var writer = new StreamWriter(stream))
-                {
-                    //var serializer = JsonSerializer.Create();
-                    //serializer.Serialize(writer, data);
-                    writer.Write(json);
-      
+                {                 
+                    writer.Write(json);     
                     return true;
                 }
                 
             }
-            catch (Exception ee)
+            catch (Exception ex)
             {
+                Globals.ThisAddIn.AppLogger.Error("Exception while saving data to file",
+                   ex);
                 return false;
             }
         }
@@ -36,7 +35,6 @@ namespace LanguageTool.WordAddin.Business
 
         public static string GetDataFromFile(string filename) 
         {
-           
             try
             {
                 using (var stream = new IsolatedStorageFileStream(filename, FileMode.Open, GetStore()))
@@ -46,8 +44,10 @@ namespace LanguageTool.WordAddin.Business
                     return json;
                 }
             }
-            catch (Exception ee)
+            catch (Exception ex)
             {
+                Globals.ThisAddIn.AppLogger.Error("Exception while loading data from file into pane",
+                    ex);
                 return string.Empty ;
             }
         }

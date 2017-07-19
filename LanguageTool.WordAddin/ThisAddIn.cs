@@ -12,11 +12,14 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using LanguageTool.WordAddin.Properties;
 using LanguageTool.WordAddin.ViewModels;
+using log4net;
 
 namespace LanguageTool.WordAddin
 {
     public partial class ThisAddIn
     {
+        private readonly ILog _log =
+        LogManager.GetLogger("RollingFileAppender");
         //bool initialized = false;
         private Dispatcher _dispatcher;
 
@@ -26,6 +29,13 @@ namespace LanguageTool.WordAddin
             set { _dispatcher = value; }
         }
 
+        public ILog AppLogger
+        {
+            get
+            {
+                return _log;
+            }
+        }
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
@@ -42,7 +52,7 @@ namespace LanguageTool.WordAddin
             //Cancel Was Pressed
             if (String.IsNullOrWhiteSpace(Settings.Default.userID))
                 return;
-            if (await ServerUpdater.DoesUpdateExist())
+          //  if (await ServerUpdater.DoesUpdateExist())
             {
               if( await ServerUpdater.GetUpdatedVersion())
                 {

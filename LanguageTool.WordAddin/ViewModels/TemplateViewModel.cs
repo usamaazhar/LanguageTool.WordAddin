@@ -29,7 +29,7 @@ namespace LanguageTool.WordAddin.ViewModels
         private TemplateViewModel()
         {
             //_updateViewModel += TemplateViewModel__updateViewModel;
-            LoadSampleData();
+            LoadDataFromFile();
         }
 
         private void TemplateViewModel__updateViewModel()
@@ -44,14 +44,14 @@ namespace LanguageTool.WordAddin.ViewModels
         public void UpdateSnippets ()
         {
             SnippetItems.Clear();
-            LoadSampleData();
+            LoadDataFromFile();
             NotifyPropertyChange(nameof(SnippetItems));
 
 
         }
         public ObservableCollection<SnippetItem> SnippetItems { get; set; } 
             = new ObservableCollection<SnippetItem>();
-        void LoadSampleData()
+        void LoadDataFromFile()
         {
             try
             {
@@ -64,9 +64,9 @@ namespace LanguageTool.WordAddin.ViewModels
             }
             catch (Exception ex)
             {
-
-            }
-            
+                Globals.ThisAddIn.AppLogger.Error
+                    ("The Json Saved in file could not be parsed", ex);
+            }            
         }
 
 
