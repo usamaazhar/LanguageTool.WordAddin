@@ -43,7 +43,6 @@ namespace LanguageTool.WordAddin.ViewModels
         }
         public void UpdateSnippets ()
         {
-            // _updateViewModel?.Invoke();
             SnippetItems.Clear();
             LoadSampleData();
             NotifyPropertyChange(nameof(SnippetItems));

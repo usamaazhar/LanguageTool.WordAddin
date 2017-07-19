@@ -73,7 +73,6 @@ namespace LanguageTool.WordAddin.Business
         private static bool UpdatedJsonIsValid(string updatedJson)
         {
             return true;
-           // throw new NotImplementedException();
         }
     }
 }

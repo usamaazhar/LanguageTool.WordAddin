@@ -49,9 +49,9 @@ namespace LanguageTool.WordAddin
                 if(await ServerUpdater.GetUpdatedVersion())
                 {
                     var vm = TemplateViewModel.GetInstance();
-                    await Dispatcher.CurrentDispatcher.BeginInvoke(
+                    await Globals.ThisAddIn.Dispatcher.BeginInvoke(
                     DispatcherPriority.Background,
-                      new Action(() => vm.UpdateSnippets()));
+                      new System.Action(() => vm.UpdateSnippets()));
                 }
                 CheckUpdates_BTN.Enabled = true;
                 return;

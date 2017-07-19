@@ -18,9 +18,18 @@ namespace LanguageTool.WordAddin
     public partial class ThisAddIn
     {
         //bool initialized = false;
+        private Dispatcher _dispatcher;
+
+        public Dispatcher Dispatcher
+        {
+            get { return _dispatcher; }
+            set { _dispatcher = value; }
+        }
+
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            _dispatcher = Dispatcher.CurrentDispatcher;
             this.Application.WindowActivate += Application_WindowActivate;
         }
 
@@ -38,7 +47,7 @@ namespace LanguageTool.WordAddin
               if( await ServerUpdater.GetUpdatedVersion())
                 {
                     var vm = TemplateViewModel.GetInstance();
-                    await Dispatcher.CurrentDispatcher.BeginInvoke(
+                    await Dispatcher.BeginInvoke(
                     DispatcherPriority.Background,
                       new System.Action(() => vm.UpdateSnippets()));
                 }
