@@ -1,4 +1,5 @@
-﻿using LanguageTool.WordAddin.Properties;
+﻿using LanguageTool.WordAddin.Business;
+using LanguageTool.WordAddin.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,22 +18,40 @@ namespace LanguageTool.WordAddin
         {
             InitializeComponent();
         }
-
-        private void FetchBTN_Click(object sender, EventArgs e)
+        int tries = 0;
+        private async void FetchBTN_Click(object sender, EventArgs e)
         {
-            if(String.IsNullOrWhiteSpace(userIDTB.Text))
+            if(String.IsNullOrWhiteSpace(tokenTB.Text))
             {
                 errorLabel.Visible = true;
                 return;
             }
+
             errorLabel.Visible = false;
-            Settings.Default.userID = userIDTB.Text;
-            this.Close();
+            //Settings.Default.token = userIDTB.Text;
+            if (Settings.Default.retriesLeft > 0)
+            {
+                if (await ServerUpdater.IsTokenValid(tokenTB.Text))
+                {
+                    Settings.Default.isTokenValid = true;
+                    LocalStorageManager.UpdateUserToken(tokenTB.Text);
+                    successLabel.Visible = true;
+                    this.Close();
+                    return;
+                }
+                errorLabel.Visible = true;
+                errorLabel.Text = $"Invalid Token Entered, you have {Settings.Default.retriesLeft} left";
+                Settings.Default.retriesLeft--;
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void CancelBTN_Click(object sender, EventArgs e)
         {
-            Settings.Default.userID = String.Empty;
+           // Settings.Default.token = String.Empty;
             this.Close();
         }
     }

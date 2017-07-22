@@ -40,29 +40,6 @@ namespace LanguageTool.WordAddin
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
-            this.Application.WindowActivate += Application_WindowActivate;
-        }
-
-        private async void Application_WindowActivate(Word.Document Doc, Word.Window Wn)
-        {
-            this.Application.WindowActivate -= Application_WindowActivate;
-            UserInfoForm form = new UserInfoForm();
-            form.ShowDialog();
-
-            //Cancel Was Pressed
-            if (String.IsNullOrWhiteSpace(Settings.Default.userID))
-                return;
-          //  if (await ServerUpdater.DoesUpdateExist())
-            {
-              if( await ServerUpdater.GetUpdatedVersion())
-                {
-                    var vm = TemplateViewModel.GetInstance();
-                    await Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                      new System.Action(() => vm.UpdateSnippets()));
-                }
-            }
-            
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

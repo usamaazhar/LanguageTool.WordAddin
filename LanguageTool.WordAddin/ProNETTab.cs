@@ -9,7 +9,7 @@ using LanguageTool.WordAddin.Views;
 using System.Windows.Forms.Integration;
 using LanguageTool.WordAddin.ViewModels;
 using LanguageTool.WordAddin.Business;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using LanguageTool.WordAddin.Properties;
 
@@ -31,54 +31,64 @@ namespace LanguageTool.WordAddin
             TemplateList uc = new TemplateList();
             host.Child = uc;
             userControl.Controls.Add(host);
+
         }
 
         private async void CheckUpdates_BTN_Click(object sender, RibbonControlEventArgs e)
         {
-            if( await ServerUpdater.DoesUpdateExist())
-            {
-                CheckUpdates_BTN.Enabled = false;
-                UserInfoForm form = new UserInfoForm();
-                var result = form.ShowDialog();
-                //Cancel Was Pressed
-                if (String.IsNullOrWhiteSpace(Settings.Default.userID))
-                {
-                    CheckUpdates_BTN.Enabled = true;
-                    return;
-                }
-                if(await ServerUpdater.GetUpdatedVersion())
-                {
-                    var vm = TemplateViewModel.GetInstance();
-                    await Globals.ThisAddIn.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                      new System.Action(() => vm.UpdateSnippets()));
-                }
-                CheckUpdates_BTN.Enabled = true;
-                return;
-            }
+            CheckUpdates_BTN.Enabled = false;
+            var snippetsUpdated = await RunFetchWorkflow();
+            CheckUpdates_BTN.Enabled = true;
+            return;
         }
 
-        private void ShowLanguageBar_BTN_Click(object sender, RibbonControlEventArgs e)
+        private async void ShowLanguageBar_BTN_Click(object sender, RibbonControlEventArgs e)
         {
             if (ShowLanguageBar_BTN.Checked)
             {
+                var snippetsUpdated = await RunFetchWorkflow();
                 customTaskPane.Visible = true;
             }
             else
                 customTaskPane.Visible = false;
         }
-
-        private void AddTextToCurrentPostion(string text)
+        private async System.Threading.Tasks.Task<bool> RunFetchWorkflow()
         {
-            Range rng;
-            var selection = Globals.ThisAddIn.Application.Selection;
-            rng = selection.Range;
-            rng.Text = "New Text" + Guid.NewGuid() as string;
-        }
-        private void PopulateViewModel()
-        {
-            //var templateVM = new TemplateViewModel() { TemplateName="Usama",TemplateContent ="Tesst"};
 
+
+            var userToken = LocalStorageManager.GetUserToken();//get token from local storagee
+            if (Settings.Default.retriesLeft <= 0)
+            {
+                MessageBox.Show("You have used maximum retries to enter a valid token, restart word to continue",
+                      "Max limit reached", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            Globals.ThisAddIn.AppLogger.Info("checking token validity");
+            if (!await ServerUpdater.IsTokenValid(userToken))
+            {
+                Globals.ThisAddIn.AppLogger.Info(" token not valid  ");
+                //if exsisting token is not valid show user the form to enter new
+                UserInfoForm form = new UserInfoForm();
+                var result = form.ShowDialog();
+            }
+            if (!Settings.Default.isTokenValid)// checks if token is still invalid after promoting the dialog
+                return false;
+            var updatedToken = LocalStorageManager.GetUserToken();
+            if (await ServerUpdater.DoesUpdateExist(updatedToken))
+            {
+
+                if (await ServerUpdater.GetUpdatedVersion(updatedToken))
+                {
+                    var vm = TemplateViewModel.GetInstance();
+                    await Globals.ThisAddIn.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                      new System.Action(() => vm.UpdateSnippets()));
+                    return true;
+                }
+            }
+
+            return false;
         }
+
     }
 }

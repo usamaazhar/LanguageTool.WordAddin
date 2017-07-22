@@ -2,6 +2,7 @@
 using LanguageTool.WordAddin.Properties;
 using LanguageTool.WordAddin.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,28 +19,81 @@ namespace LanguageTool.WordAddin.Business
     {
         
         static HttpClient client = new HttpClient();
-
         static ServerUpdater()
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Add("cache-control", "no-cache");
         }
-        public async static Task<bool> DoesUpdateExist()
+        public async static Task<bool> IsTokenValid(string userToken)
         {
-            await Task.Delay(1000);
-            return true;
-        }
-
-        public async static Task<bool> GetUpdatedVersion()
-        {
-            var userID = Settings.Default.userID;
-            if (String.IsNullOrWhiteSpace(userID))
+            try
             {
-                Globals.ThisAddIn.AppLogger.Info
-                    ("UserID is empty , not getting latest from server");
+                HttpResponseMessage response = await client.
+                       GetAsync($"{Settings.Default.tokenValidityEndpoint}{userToken}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var jObject = JObject.Parse(json);
+                    if (jObject["result"] == null)
+                        return false;
+                    else
+                    {
+                        var res = jObject.GetValue("result").ToObject<bool>();
+                        Settings.Default.isTokenValid = res;
+                        return res;
+
+                    }
+                }
                 return false;
             }
-            string updatedJson =  await GetTemplatesFromServer(userID);
+            catch (Exception ex)
+            {
+                Globals.ThisAddIn.AppLogger.Error("Exception while checking if token is valid",
+                   ex);
+                Settings.Default.isTokenValid = false;
+                return false;
+            }
+        }
+        public async static Task<bool> DoesUpdateExist(string userToken)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.
+                    GetAsync($"{Settings.Default.checkForUpdatesEndpoint}{userToken}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var jObject = JObject.Parse(json);
+                    if (  jObject["update_available"] == null)
+                        return false;
+                    else
+                    {
+                       var res = jObject.GetValue("update_available").ToObject<bool>();
+                        return res;
+                    }
+                }
+                Globals.ThisAddIn.AppLogger.Error(
+                    $"Server returned with error {response.StatusCode}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Globals.ThisAddIn.AppLogger.Error("Exception while checking if update exist",
+                    ex);
+                return false;
+               // throw;
+            }
+        }
+
+        public async static Task<bool> GetUpdatedVersion(string token)
+        {
+            if (String.IsNullOrWhiteSpace(token))
+            {
+                Globals.ThisAddIn.AppLogger.Info
+                    ("token is empty , not getting latest from server");
+                return false;
+            }
+            string updatedJson =  await GetTemplatesFromServer(token);
             if (String.IsNullOrWhiteSpace(updatedJson))
             {
                 Globals.ThisAddIn.AppLogger.Info
@@ -49,19 +103,20 @@ namespace LanguageTool.WordAddin.Business
             if (UpdatedJsonIsValid(updatedJson))
             {
                if( LocalStorageManager.SaveDataToFile(updatedJson,
-                      Settings.Default.localStorageFileName))
+                      Settings.Default.localSnippetsFileName))
                 {
                     return true;
                 }
             }
             return false;
         }
-        public async static Task<string> GetTemplatesFromServer(string userID)
+        #region utilityMethods
+        private async static Task<string> GetTemplatesFromServer(string userToken)
         {
             try
             {
                 HttpResponseMessage response = await client.
-                    GetAsync($"{Settings.Default.serverBaseURL}{userID}");
+                    GetAsync($"{Settings.Default.snippetsEndpoint}{userToken}");
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -91,5 +146,6 @@ namespace LanguageTool.WordAddin.Business
                 return false;
             }
         }
+        #endregion
     }
 }

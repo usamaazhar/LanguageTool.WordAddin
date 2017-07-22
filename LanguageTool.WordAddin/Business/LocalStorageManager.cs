@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using LanguageTool.WordAddin.Properties;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,5 +54,18 @@ namespace LanguageTool.WordAddin.Business
             }
         }
 
+        public static string GetUserToken()
+        {
+            var token = GetDataFromFile(Settings.Default.localTokenFileName);
+            return token;
+        
+        }
+
+        public static bool UpdateUserToken(string token)
+        {
+            var isUpdateSuccess = 
+                SaveDataToFile(token, Settings.Default.localTokenFileName);
+            return isUpdateSuccess;
+        }
     }
 }

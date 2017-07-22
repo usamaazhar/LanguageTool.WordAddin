@@ -26,31 +26,81 @@ namespace LanguageTool.WordAddin.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("localTemplates.json")]
-        public string localStorageFileName {
+        public string localSnippetsFileName {
             get {
-                return ((string)(this["localStorageFileName"]));
+                return ((string)(this["localSnippetsFileName"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=g" +
-            "et_data_for_onlyoffice_plugin&user_id=")]
-        public string serverBaseURL {
+            "et_data_for_onlyoffice_plugin&amp;token=")]
+        public string snippetsEndpoint {
             get {
-                return ((string)(this["serverBaseURL"]));
+                return ((string)(this["snippetsEndpoint"]));
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string userID {
+        [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=c" +
+            "heck_for_update_onlyoffice_plugin&token=")]
+        public string checkForUpdatesEndpoint {
             get {
-                return ((string)(this["userID"]));
+                return ((string)(this["checkForUpdatesEndpoint"]));
             }
             set {
-                this["userID"] = value;
+                this["checkForUpdatesEndpoint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=v" +
+            "alidate_token_onlyoffice_plugin&token=")]
+        public string tokenValidityEndpoint {
+            get {
+                return ((string)(this["tokenValidityEndpoint"]));
+            }
+            set {
+                this["tokenValidityEndpoint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isTokenValid {
+            get {
+                return ((bool)(this["isTokenValid"]));
+            }
+            set {
+                this["isTokenValid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("userToken.json")]
+        public string localTokenFileName {
+            get {
+                return ((string)(this["localTokenFileName"]));
+            }
+            set {
+                this["localTokenFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int retriesLeft {
+            get {
+                return ((int)(this["retriesLeft"]));
+            }
+            set {
+                this["retriesLeft"] = value;
             }
         }
     }
