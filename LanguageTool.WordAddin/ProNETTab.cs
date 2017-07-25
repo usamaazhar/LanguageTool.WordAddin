@@ -76,18 +76,29 @@ namespace LanguageTool.WordAddin
             var updatedToken = LocalStorageManager.GetUserToken();
             if (await ServerUpdater.DoesUpdateExist(updatedToken))
             {
-
-                if (await ServerUpdater.GetUpdatedVersion(updatedToken))
+               await GetUpdatedJsonAndUpdateVM(updatedToken);
+            }
+            else
+            {
+                if(!LocalStorageManager.DoesFileExistWithJson
+                    (Settings.Default.localSnippetsFileName))
                 {
-                    var vm = TemplateViewModel.GetInstance();
-                    await Globals.ThisAddIn.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                      new System.Action(() => vm.UpdateSnippets()));
-                    return true;
+                    await GetUpdatedJsonAndUpdateVM(updatedToken);
                 }
             }
 
             return false;
+        }
+
+        private async System.Threading.Tasks.Task GetUpdatedJsonAndUpdateVM(string token)
+        {
+            if (await ServerUpdater.GetUpdatedVersion(token))
+            {
+                var vm = TemplateViewModel.GetInstance();
+                await Globals.ThisAddIn.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                  new System.Action(() => vm.UpdateSnippets()));
+            }
         }
 
     }
