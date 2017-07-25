@@ -34,10 +34,15 @@ namespace LanguageTool.WordAddin
 
         }
 
+        private void ShowInfoMessageBox(string message,string title)
+        {
+            MessageBox.Show(message,title,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private async void CheckUpdates_BTN_Click(object sender, RibbonControlEventArgs e)
         {
             CheckUpdates_BTN.Enabled = false;
-            var snippetsUpdated = await RunFetchWorkflow();
+            var snippetsUpdated = await RunFetchWorkflowForUpdatesBTN();
             CheckUpdates_BTN.Enabled = true;
             return;
         }
@@ -52,10 +57,9 @@ namespace LanguageTool.WordAddin
             else
                 customTaskPane.Visible = false;
         }
-        private async System.Threading.Tasks.Task<bool> RunFetchWorkflow()
+
+        private async System.Threading.Tasks.Task<bool> CheckTokenValidity()
         {
-
-
             var userToken = LocalStorageManager.GetUserToken();//get token from local storagee
             if (Settings.Default.retriesLeft <= 0)
             {
@@ -72,6 +76,15 @@ namespace LanguageTool.WordAddin
                 var result = form.ShowDialog();
             }
             if (!Settings.Default.isTokenValid)// checks if token is still invalid after promoting the dialog
+            {
+                ShowInfoMessageBox("Token is still invalid", "Invalid Token");
+                return false;
+            }
+            return true;
+        }
+        private async System.Threading.Tasks.Task<bool> RunFetchWorkflow()
+        {
+            if (!await CheckTokenValidity()) //token is still invalid after all tries
                 return false;
             var updatedToken = LocalStorageManager.GetUserToken();
             if (await ServerUpdater.DoesUpdateExist(updatedToken))
@@ -90,7 +103,38 @@ namespace LanguageTool.WordAddin
             return false;
         }
 
-        private async System.Threading.Tasks.Task GetUpdatedJsonAndUpdateVM(string token)
+        private async System.Threading.Tasks.Task<bool> RunFetchWorkflowForUpdatesBTN()
+        {
+            if (!await CheckTokenValidity()) //token is still invalid after all tries
+                return false;
+            var updatedToken = LocalStorageManager.GetUserToken();
+            if (await ServerUpdater.DoesUpdateExist(updatedToken))
+            {
+                if(await GetUpdatedJsonAndUpdateVM(updatedToken))
+                    ShowInfoMessageBox("Updates were available and were fetched", "Fetch success");
+                else
+                    ShowInfoMessageBox("Updates were available but newly fetched templated were empty",
+                        "Empty templates returned");
+            }
+            else
+            {
+                if (!LocalStorageManager.DoesFileExistWithJson
+                    (Settings.Default.localSnippetsFileName))
+                {
+                    if (await GetUpdatedJsonAndUpdateVM(updatedToken))
+                        ShowInfoMessageBox("Updates were available and were fetched", "Fetch success");
+                    else
+                        ShowInfoMessageBox("Updates were available but newly fetched templated were empty",
+                            "Empty templates returned");
+                    return true;
+                }
+
+                ShowInfoMessageBox("No updates were available", "Not fetched");
+            }
+
+            return true;
+        }
+        private async System.Threading.Tasks.Task<bool> GetUpdatedJsonAndUpdateVM(string token)
         {
             if (await ServerUpdater.GetUpdatedVersion(token))
             {
@@ -98,7 +142,9 @@ namespace LanguageTool.WordAddin
                 await Globals.ThisAddIn.Dispatcher.BeginInvoke(
                 DispatcherPriority.Background,
                   new System.Action(() => vm.UpdateSnippets()));
+                return true;
             }
+            return false;
         }
 
     }

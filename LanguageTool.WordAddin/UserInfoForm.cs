@@ -54,5 +54,24 @@ namespace LanguageTool.WordAddin
            // Settings.Default.token = String.Empty;
             this.Close();
         }
+
+        private void tokenModal_MouseEnter(object sender, EventArgs e)
+        {
+            tokenModal.Font = new Font(tokenModal.Font.Name, tokenModal.Font.SizeInPoints,
+                FontStyle.Underline);
+
+        }
+
+        private void tokenModal_Click(object sender, EventArgs e)
+        {
+            TokenModalDialog form = new TokenModalDialog();
+            form.ShowDialog();
+        }
+
+        private void tokenModal_MouseLeave(object sender, EventArgs e)
+        {
+            tokenModal.Font = new Font(tokenModal.Font.Name, tokenModal.Font.SizeInPoints,
+                FontStyle.Regular);
+        }
     }
 }

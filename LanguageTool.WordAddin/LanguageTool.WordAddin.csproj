@@ -34,7 +34,7 @@
     <PublishUrl>D:\STA\Self_Learn\Upar\LanguageTool_WordAddin\Publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.3</ApplicationVersion>
+    <ApplicationVersion>1.0.0.5</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -201,6 +201,12 @@
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\RelayCommandEx.cs" />
     <Compile Include="Models\SnippetItem.cs" />
+    <Compile Include="TokenModalDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TokenModalDialog.Designer.cs">
+      <DependentUpon>TokenModalDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -231,7 +237,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TokenModalDialog.resx">
+      <DependentUpon>TokenModalDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserInfoForm.resx">
       <DependentUpon>UserInfoForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -264,6 +274,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addin-instr.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

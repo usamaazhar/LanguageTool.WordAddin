@@ -35,6 +35,7 @@
             this.errorLabel = new System.Windows.Forms.Label();
             this.CancelBTN = new System.Windows.Forms.Button();
             this.successLabel = new System.Windows.Forms.Label();
+            this.tokenModal = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -104,11 +105,25 @@
             this.successLabel.Text = "Valid Token Found";
             this.successLabel.Visible = false;
             // 
+            // tokenModal
+            // 
+            this.tokenModal.AutoSize = true;
+            this.tokenModal.ForeColor = System.Drawing.Color.Blue;
+            this.tokenModal.Location = new System.Drawing.Point(139, 128);
+            this.tokenModal.Name = "tokenModal";
+            this.tokenModal.Size = new System.Drawing.Size(137, 17);
+            this.tokenModal.TabIndex = 7;
+            this.tokenModal.Text = "Where is my token ?";
+            this.tokenModal.Click += new System.EventHandler(this.tokenModal_Click);
+            this.tokenModal.MouseEnter += new System.EventHandler(this.tokenModal_MouseEnter);
+            this.tokenModal.MouseLeave += new System.EventHandler(this.tokenModal_MouseLeave);
+            // 
             // UserInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 157);
+            this.ClientSize = new System.Drawing.Size(437, 163);
+            this.Controls.Add(this.tokenModal);
             this.Controls.Add(this.successLabel);
             this.Controls.Add(this.CancelBTN);
             this.Controls.Add(this.errorLabel);
@@ -116,6 +131,7 @@
             this.Controls.Add(this.FetchBTN);
             this.Controls.Add(this.tokenTB);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "UserInfoForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "User Authentication";
@@ -133,5 +149,6 @@
         private System.Windows.Forms.Label errorLabel;
         private System.Windows.Forms.Button CancelBTN;
         private System.Windows.Forms.Label successLabel;
+        private System.Windows.Forms.Label tokenModal;
     }
 }

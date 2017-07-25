@@ -6,7 +6,7 @@
       <Value Profile="(Default)">localTemplates.json</Value>
     </Setting>
     <Setting Name="snippetsEndpoint" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=get_data_for_onlyoffice_plugin&amp;amp;token=</Value>
+      <Value Profile="(Default)">https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=get_data_for_onlyoffice_plugin&amp;token=</Value>
     </Setting>
     <Setting Name="checkForUpdatesEndpoint" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=check_for_update_onlyoffice_plugin&amp;token=</Value>

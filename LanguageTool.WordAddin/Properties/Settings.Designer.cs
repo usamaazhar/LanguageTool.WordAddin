@@ -35,7 +35,7 @@ namespace LanguageTool.WordAddin.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=g" +
-            "et_data_for_onlyoffice_plugin&amp;token=")]
+            "et_data_for_onlyoffice_plugin&token=")]
         public string snippetsEndpoint {
             get {
                 return ((string)(this["snippetsEndpoint"]));
