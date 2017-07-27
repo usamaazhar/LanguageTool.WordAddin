@@ -35,10 +35,11 @@
             // 
             // modalPictureBox
             // 
+            this.modalPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.modalPictureBox.Image = global::LanguageTool.WordAddin.Properties.Resources.addin_instr;
-            this.modalPictureBox.Location = new System.Drawing.Point(-5, -2);
+            this.modalPictureBox.Location = new System.Drawing.Point(0, 0);
             this.modalPictureBox.Name = "modalPictureBox";
-            this.modalPictureBox.Size = new System.Drawing.Size(600, 404);
+            this.modalPictureBox.Size = new System.Drawing.Size(594, 430);
             this.modalPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.modalPictureBox.TabIndex = 0;
             this.modalPictureBox.TabStop = false;

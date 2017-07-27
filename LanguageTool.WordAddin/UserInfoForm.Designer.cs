@@ -111,9 +111,9 @@
             this.tokenModal.ForeColor = System.Drawing.Color.Blue;
             this.tokenModal.Location = new System.Drawing.Point(139, 128);
             this.tokenModal.Name = "tokenModal";
-            this.tokenModal.Size = new System.Drawing.Size(137, 17);
+            this.tokenModal.Size = new System.Drawing.Size(133, 17);
             this.tokenModal.TabIndex = 7;
-            this.tokenModal.Text = "Where is my token ?";
+            this.tokenModal.Text = "Where is my token?";
             this.tokenModal.Click += new System.EventHandler(this.tokenModal_Click);
             this.tokenModal.MouseEnter += new System.EventHandler(this.tokenModal_MouseEnter);
             this.tokenModal.MouseLeave += new System.EventHandler(this.tokenModal_MouseLeave);
