@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace LanguageTool.WordAddin
 {
-    public partial class TokenModalDialog : Form
+    public partial class ModalDialogForm : Form
     {
-        public TokenModalDialog()
+        public ModalDialogForm()
         {
             InitializeComponent();
-        }
-
-        private void closeBTN_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

@@ -64,7 +64,7 @@ namespace LanguageTool.WordAddin
 
         private void tokenModal_Click(object sender, EventArgs e)
         {
-            TokenModalDialog form = new TokenModalDialog();
+            ModalDialogForm form = new ModalDialogForm();
             form.ShowDialog();
         }
 
