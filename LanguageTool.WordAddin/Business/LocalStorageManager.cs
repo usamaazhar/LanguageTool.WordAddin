@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using LanguageTool.WordAddin.Properties;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,5 +54,39 @@ namespace LanguageTool.WordAddin.Business
             }
         }
 
+        public static string GetUserToken()
+        {
+            var token = GetDataFromFile(Settings.Default.localTokenFileName);
+            return token;
+        
+        }
+
+        public static bool UpdateUserToken(string token)
+        {
+            var isUpdateSuccess = 
+                SaveDataToFile(token, Settings.Default.localTokenFileName);
+            return isUpdateSuccess;
+        }
+
+        public static bool DoesFileExistWithJson(string localSnippetsFileName)
+        {
+            try
+            {
+                var jsonData =  GetDataFromFile(localSnippetsFileName);
+                if(String.IsNullOrWhiteSpace(jsonData))
+                {
+                    return false;
+                }
+                return true;
+            }
+            
+            catch (Exception ex)
+            {
+
+                Globals.ThisAddIn.AppLogger.Error("Exception while checking if file exists",
+                    ex);
+                return false;
+            }
+        }
     }
 }

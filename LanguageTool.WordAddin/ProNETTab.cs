@@ -9,7 +9,7 @@ using LanguageTool.WordAddin.Views;
 using System.Windows.Forms.Integration;
 using LanguageTool.WordAddin.ViewModels;
 using LanguageTool.WordAddin.Business;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using LanguageTool.WordAddin.Properties;
 
@@ -31,54 +31,121 @@ namespace LanguageTool.WordAddin
             TemplateList uc = new TemplateList();
             host.Child = uc;
             userControl.Controls.Add(host);
+
         }
 
+        private void ShowInfoMessageBox(string message,string title)
+        {
+            MessageBox.Show(message,title,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private async void CheckUpdates_BTN_Click(object sender, RibbonControlEventArgs e)
         {
-            if( await ServerUpdater.DoesUpdateExist())
-            {
-                CheckUpdates_BTN.Enabled = false;
-                UserInfoForm form = new UserInfoForm();
-                var result = form.ShowDialog();
-                //Cancel Was Pressed
-                if (String.IsNullOrWhiteSpace(Settings.Default.userID))
-                {
-                    CheckUpdates_BTN.Enabled = true;
-                    return;
-                }
-                if(await ServerUpdater.GetUpdatedVersion())
-                {
-                    var vm = TemplateViewModel.GetInstance();
-                    await Globals.ThisAddIn.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                      new System.Action(() => vm.UpdateSnippets()));
-                }
-                CheckUpdates_BTN.Enabled = true;
-                return;
-            }
+            CheckUpdates_BTN.Enabled = false;
+            var snippetsUpdated = await RunFetchWorkflowForUpdatesBTN();
+            CheckUpdates_BTN.Enabled = true;
+            return;
         }
 
-        private void ShowLanguageBar_BTN_Click(object sender, RibbonControlEventArgs e)
+        private async void ShowLanguageBar_BTN_Click(object sender, RibbonControlEventArgs e)
         {
             if (ShowLanguageBar_BTN.Checked)
             {
+                var snippetsUpdated = await RunFetchWorkflow();
                 customTaskPane.Visible = true;
             }
             else
                 customTaskPane.Visible = false;
         }
 
-        private void AddTextToCurrentPostion(string text)
+        private async System.Threading.Tasks.Task<bool> CheckTokenValidity()
         {
-            Range rng;
-            var selection = Globals.ThisAddIn.Application.Selection;
-            rng = selection.Range;
-            rng.Text = "New Text" + Guid.NewGuid() as string;
+            var userToken = LocalStorageManager.GetUserToken();//get token from local storagee
+            if (Settings.Default.retriesLeft <= 0)
+            {
+                MessageBox.Show("You have used maximum retries to enter a valid token, restart word to continue",
+                      "Max limit reached", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            Globals.ThisAddIn.AppLogger.Info("checking token validity");
+            if (!await ServerUpdater.IsTokenValid(userToken))
+            {
+                Globals.ThisAddIn.AppLogger.Info(" token not valid  ");
+                //if exsisting token is not valid show user the form to enter new
+                UserInfoForm form = new UserInfoForm();
+                var result = form.ShowDialog();
+            }
+            if (!Settings.Default.isTokenValid)// checks if token is still invalid after promoting the dialog
+            {
+                ShowInfoMessageBox("Token is still invalid", "Invalid Token");
+                return false;
+            }
+            return true;
         }
-        private void PopulateViewModel()
+        private async System.Threading.Tasks.Task<bool> RunFetchWorkflow()
         {
-            //var templateVM = new TemplateViewModel() { TemplateName="Usama",TemplateContent ="Tesst"};
+            if (!await CheckTokenValidity()) //token is still invalid after all tries
+                return false;
+            var updatedToken = LocalStorageManager.GetUserToken();
+            if (await ServerUpdater.DoesUpdateExist(updatedToken))
+            {
+               await GetUpdatedJsonAndUpdateVM(updatedToken);
+            }
+            else
+            {
+                if(!LocalStorageManager.DoesFileExistWithJson
+                    (Settings.Default.localSnippetsFileName))
+                {
+                    await GetUpdatedJsonAndUpdateVM(updatedToken);
+                }
+            }
 
+            return false;
         }
+
+        private async System.Threading.Tasks.Task<bool> RunFetchWorkflowForUpdatesBTN()
+        {
+            if (!await CheckTokenValidity()) //token is still invalid after all tries
+                return false;
+            var updatedToken = LocalStorageManager.GetUserToken();
+            if (await ServerUpdater.DoesUpdateExist(updatedToken))
+            {
+                if(await GetUpdatedJsonAndUpdateVM(updatedToken))
+                    ShowInfoMessageBox("Updates were available and were fetched", "Fetch success");
+                else
+                    ShowInfoMessageBox("Updates were available but newly fetched templated were empty",
+                        "Empty templates returned");
+            }
+            else
+            {
+                if (!LocalStorageManager.DoesFileExistWithJson
+                    (Settings.Default.localSnippetsFileName))
+                {
+                    if (await GetUpdatedJsonAndUpdateVM(updatedToken))
+                        ShowInfoMessageBox("Updates were available and were fetched", "Fetch success");
+                    else
+                        ShowInfoMessageBox("Updates were available but newly fetched templated were empty",
+                            "Empty templates returned");
+                    return true;
+                }
+
+                ShowInfoMessageBox("No updates were available", "Not fetched");
+            }
+
+            return true;
+        }
+        private async System.Threading.Tasks.Task<bool> GetUpdatedJsonAndUpdateVM(string token)
+        {
+            if (await ServerUpdater.GetUpdatedVersion(token))
+            {
+                var vm = TemplateViewModel.GetInstance();
+                await Globals.ThisAddIn.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                  new System.Action(() => vm.UpdateSnippets()));
+                return true;
+            }
+            return false;
+        }
+
     }
 }

@@ -55,7 +55,7 @@ namespace LanguageTool.WordAddin.ViewModels
         {
             try
             {
-                var json = LocalStorageManager.GetDataFromFile(Settings.Default.localStorageFileName);
+                var json = LocalStorageManager.GetDataFromFile(Settings.Default.localSnippetsFileName);
                 var itemSnippets = JsonConvert.DeserializeObject<Templates>(json);
                 foreach (var item in itemSnippets.Snippets)
                 {
