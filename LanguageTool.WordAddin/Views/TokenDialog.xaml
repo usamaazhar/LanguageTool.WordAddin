@@ -1,0 +1,23 @@
+﻿<Window x:Class="LanguageTool.WordAddin.Views.TokenDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Token Info"
+        Height="400"
+        Width="600"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="False"
+        WindowStyle="SingleBorderWindow"
+        >
+    <Grid>
+
+        <Image Stretch="Fill" Source="D:/STA/Self_Learn/Upar/LanguageTool_WordAddin/LanguageTool.WordAddin/LanguageTool.WordAddin/Resources/addin-instr.png">
+         
+        </Image>
+        <!--"/Resources/addin-instr.png"-->
+        
+    </Grid>
+</Window>

@@ -34,8 +34,8 @@ namespace LanguageTool.WordAddin.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=g" +
-            "et_data_for_onlyoffice_plugin&token=")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://landlord.pronetcre.com/ajax/language_library_ajax.php?action=get_data_for" +
+            "_onlyoffice_plugin&token=")]
         public string snippetsEndpoint {
             get {
                 return ((string)(this["snippetsEndpoint"]));
@@ -44,8 +44,8 @@ namespace LanguageTool.WordAddin.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=c" +
-            "heck_for_update_onlyoffice_plugin&token=")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://landlord.pronetcre.com/ajax/language_library_ajax.php?action=check_for_up" +
+            "date_onlyoffice_plugin&token=")]
         public string checkForUpdatesEndpoint {
             get {
                 return ((string)(this["checkForUpdatesEndpoint"]));
@@ -57,8 +57,8 @@ namespace LanguageTool.WordAddin.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://nick-landlord.assistantbroker.com/ajax/language_library_ajax.php?action=v" +
-            "alidate_token_onlyoffice_plugin&token=")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://landlord.pronetcre.com/ajax/language_library_ajax.php?action=validate_tok" +
+            "en_onlyoffice_plugin&token=")]
         public string tokenValidityEndpoint {
             get {
                 return ((string)(this["tokenValidityEndpoint"]));

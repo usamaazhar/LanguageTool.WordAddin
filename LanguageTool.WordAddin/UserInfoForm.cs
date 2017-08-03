@@ -1,5 +1,6 @@
 ﻿using LanguageTool.WordAddin.Business;
 using LanguageTool.WordAddin.Properties;
+using LanguageTool.WordAddin.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace LanguageTool.WordAddin
 {
@@ -21,7 +23,7 @@ namespace LanguageTool.WordAddin
         int tries = 0;
         private async void FetchBTN_Click(object sender, EventArgs e)
         {
-            if(String.IsNullOrWhiteSpace(tokenTB.Text))
+            if (String.IsNullOrWhiteSpace(tokenTB.Text))
             {
                 errorLabel.Visible = true;
                 return;
@@ -51,7 +53,7 @@ namespace LanguageTool.WordAddin
 
         private void CancelBTN_Click(object sender, EventArgs e)
         {
-           // Settings.Default.token = String.Empty;
+            // Settings.Default.token = String.Empty;
             this.Close();
         }
 
@@ -59,19 +61,30 @@ namespace LanguageTool.WordAddin
         {
             tokenModal.Font = new Font(tokenModal.Font.Name, tokenModal.Font.SizeInPoints,
                 FontStyle.Underline);
+            Cursor.Current = Cursors.Hand;
 
         }
 
-        private void tokenModal_Click(object sender, EventArgs e)
-        {
-            ModalDialogForm form = new ModalDialogForm();
-            form.ShowDialog();
+        private async void tokenModal_Click(object sender, EventArgs e)
+        { 
+
+            await Globals.ThisAddIn.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                  new System.Action(() =>
+            {
+            
+                TokenDialog dialog = new TokenDialog();
+                dialog.Topmost = true;
+                dialog.ShowDialog();
+
+            })); 
         }
 
         private void tokenModal_MouseLeave(object sender, EventArgs e)
         {
             tokenModal.Font = new Font(tokenModal.Font.Name, tokenModal.Font.SizeInPoints,
                 FontStyle.Regular);
+            Cursor.Current = Cursors.Default;
         }
     }
 }
