@@ -14,7 +14,7 @@
         >
     <Grid>
 
-        <Image Stretch="Fill" Source="D:/STA/Self_Learn/Upar/LanguageTool_WordAddin/LanguageTool.WordAddin/LanguageTool.WordAddin/Resources/addin-instr.png">
+        <Image Stretch="Fill" Source="../Resources/addin-instr.png">
          
         </Image>
         <!--"/Resources/addin-instr.png"-->

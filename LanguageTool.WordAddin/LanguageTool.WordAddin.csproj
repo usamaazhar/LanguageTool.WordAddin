@@ -274,9 +274,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\addin-instr.png">
+    <Resource Include="Resources\addin-instr.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Resource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
