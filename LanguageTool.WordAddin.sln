@@ -9,7 +9,8 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "LanguageToolInstaller", "La
 	ProjectSection(ProjectDependencies) = postProject
 		{754EA07D-9411-4E77-BC2C-1390D42BDF9B} = {754EA07D-9411-4E77-BC2C-1390D42BDF9B}
 	EndProjectSection
-EndProjectGlobal
+EndProject
+Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
 		Debug|Any CPU = Debug|Any CPU
@@ -26,7 +27,7 @@ EndProjectGlobal
 		{754EA07D-9411-4E77-BC2C-1390D42BDF9B}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
 		{754EA07D-9411-4E77-BC2C-1390D42BDF9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{754EA07D-9411-4E77-BC2C-1390D42BDF9B}.Release|Any CPU.Build.0 = Release|Any CPU
-{754EA07D-9411-4E77-BC2C-1390D42BDF9B}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{754EA07D-9411-4E77-BC2C-1390D42BDF9B}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{754EA07D-9411-4E77-BC2C-1390D42BDF9B}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 		{CE58C57A-A961-41C7-8418-1ACF8F43A5E2}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
 		{CE58C57A-A961-41C7-8418-1ACF8F43A5E2}.CD_ROM|Any CPU.Build.0 = CD_ROM
@@ -37,7 +38,7 @@ EndProjectGlobal
 		{CE58C57A-A961-41C7-8418-1ACF8F43A5E2}.Release|Any CPU.ActiveCfg = SingleImage
 		{CE58C57A-A961-41C7-8418-1ACF8F43A5E2}.Release|Any CPU.Build.0 = SingleImage
 		{CE58C57A-A961-41C7-8418-1ACF8F43A5E2}.SingleImage|Any CPU.ActiveCfg = SingleImage
-		{CE58C57A-A961-41C7-8418-1ACF8F43A5E2}.SingleImage|Any CPU.Build.0 = SingleImage	EndGlobalSection
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
