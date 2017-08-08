@@ -203,6 +203,7 @@
     <Compile Include="Common\ObservableBase.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\RelayCommandEx.cs" />
+    <Compile Include="Models\MappingData.cs" />
     <Compile Include="Models\SnippetItem.cs" />
     <Compile Include="Models\UpdateSnippetsMessage.cs" />
     <Compile Include="UserInfoForm.cs">

@@ -36,8 +36,8 @@
         {
             this.Pronet_tab = this.Factory.CreateRibbonTab();
             this.Language_bar = this.Factory.CreateRibbonGroup();
-            this.ShowLanguageBar_BTN = this.Factory.CreateRibbonToggleButton();
             this.CheckUpdates_BTN = this.Factory.CreateRibbonButton();
+            this.toggleLanguageBarButton = this.Factory.CreateRibbonButton();
             this.Pronet_tab.SuspendLayout();
             this.Language_bar.SuspendLayout();
             this.SuspendLayout();
@@ -50,22 +50,22 @@
             // 
             // Language_bar
             // 
-            this.Language_bar.Items.Add(this.ShowLanguageBar_BTN);
+            this.Language_bar.Items.Add(this.toggleLanguageBarButton);
             this.Language_bar.Items.Add(this.CheckUpdates_BTN);
             this.Language_bar.Label = "Language Bar";
             this.Language_bar.Name = "Language_bar";
-            // 
-            // ShowLanguageBar_BTN
-            // 
-            this.ShowLanguageBar_BTN.Label = "Show Language Bar";
-            this.ShowLanguageBar_BTN.Name = "ShowLanguageBar_BTN";
-            this.ShowLanguageBar_BTN.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowLanguageBar_BTN_Click);
             // 
             // CheckUpdates_BTN
             // 
             this.CheckUpdates_BTN.Label = "Check For Updates";
             this.CheckUpdates_BTN.Name = "CheckUpdates_BTN";
             this.CheckUpdates_BTN.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CheckUpdates_BTN_Click);
+            // 
+            // toggleLanguageBarButton
+            // 
+            this.toggleLanguageBarButton.Label = "Toggle Language Bar";
+            this.toggleLanguageBarButton.Name = "toggleLanguageBarButton";
+            this.toggleLanguageBarButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toggleLanguageBarButton_Click);
             // 
             // ProNETTab
             // 
@@ -85,8 +85,8 @@
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab Pronet_tab;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup Language_bar;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton ShowLanguageBar_BTN;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CheckUpdates_BTN;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton toggleLanguageBarButton;
     }
 
     partial class ThisRibbonCollection
