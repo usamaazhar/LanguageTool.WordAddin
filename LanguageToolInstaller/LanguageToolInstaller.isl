@@ -341,7 +341,7 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{C27B4B21-91CF-4A5E-B53A-CE114CE49826}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{B68724BC-F408-485C-AC1E-FD9B4E6DB103}</td><td>INSTALLDIR</td><td>258</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>LanguageTool.WordAddin.Primary_output</td><td>{26CB6B36-9885-482A-8644-F210F2A4D8FA}</td><td>INSTALLDIR</td><td>2</td><td/><td>languagetool.wordaddin.prima</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>LanguageTool.WordAddin.Primary_output</td><td>{4D1C0417-30C4-46E4-B478-EB308E6320D9}</td><td>INSTALLDIR</td><td>2</td><td/><td>languagetool.wordaddin.prima</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -2034,7 +2034,7 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_F4EA7D9A_5641_4F32_B397_E4AEEE54AC13_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_2DD0D7B7_CBA4_4BD4_A400_C536B92D45AF_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>LanguageTool.WordAddin.Primary_output</td><td/><td/><td>_8422B0D4_DAC1_4508_A509_77020D3FE498_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>LanguageTool.WordAddin.Primary_output</td><td/><td/><td>_1D4A7C7B_AC6B_427A_BC6A_3BF905D9F6FF_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
