@@ -19,20 +19,8 @@ namespace LanguageTool.WordAddin
 {
     public partial class ProNETTab
     {
-        private string m_actionPaneName = "Language Templates";
-        private BaseUserControl userControl;
-        private Microsoft.Office.Tools.CustomTaskPane customTaskPane;
         private void ProNETTab_Load(object sender, RibbonUIEventArgs e)
         {
-            userControl = new BaseUserControl();
-            customTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(userControl, m_actionPaneName);
-            ElementHost host = new ElementHost();
-            host.Dock = DockStyle.Fill;
-
-            // Create the WPF UserControl.
-            TemplateList uc = new TemplateList();
-            host.Child = uc;
-            userControl.Controls.Add(host);
 
         }
 
@@ -49,15 +37,23 @@ namespace LanguageTool.WordAddin
             return;
         }
 
-        private async void ShowLanguageBar_BTN_Click(object sender, RibbonControlEventArgs e)
+        private async void toggleLanguageBarButton_Click(object sender, RibbonControlEventArgs e)
         {
-            if (ShowLanguageBar_BTN.Checked)
+            var customTaskPane = Globals.ThisAddIn.GetCurrentTaskPane();
+            if (customTaskPane == null)
+            {
+                return;
+            }
+
+            if (customTaskPane.Visible == false)
             {
                 var snippetsUpdated = await RunFetchWorkflow();
                 customTaskPane.Visible = true;
             }
             else
+            {
                 customTaskPane.Visible = false;
+            }
         }
 
         private async System.Threading.Tasks.Task<bool> CheckTokenValidity()
@@ -147,6 +143,7 @@ namespace LanguageTool.WordAddin
             }
             return false;
         }
+
 
     }
 }
