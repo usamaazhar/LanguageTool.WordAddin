@@ -12,6 +12,8 @@ using LanguageTool.WordAddin.Business;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using LanguageTool.WordAddin.Properties;
+using MVVMLight.Messaging;
+using LanguageTool.WordAddin.Models;
 
 namespace LanguageTool.WordAddin
 {
@@ -34,9 +36,9 @@ namespace LanguageTool.WordAddin
 
         }
 
-        private void ShowInfoMessageBox(string message,string title)
+        private void ShowInfoMessageBox(string message, string title)
         {
-            MessageBox.Show(message,title,
+            MessageBox.Show(message, title,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private async void CheckUpdates_BTN_Click(object sender, RibbonControlEventArgs e)
@@ -89,11 +91,11 @@ namespace LanguageTool.WordAddin
             var updatedToken = LocalStorageManager.GetUserToken();
             if (await ServerUpdater.DoesUpdateExist(updatedToken))
             {
-               await GetUpdatedJsonAndUpdateVM(updatedToken);
+                await GetUpdatedJsonAndUpdateVM(updatedToken);
             }
             else
             {
-                if(!LocalStorageManager.DoesFileExistWithJson
+                if (!LocalStorageManager.DoesFileExistWithJson
                     (Settings.Default.localSnippetsFileName))
                 {
                     await GetUpdatedJsonAndUpdateVM(updatedToken);
@@ -110,7 +112,7 @@ namespace LanguageTool.WordAddin
             var updatedToken = LocalStorageManager.GetUserToken();
             if (await ServerUpdater.DoesUpdateExist(updatedToken))
             {
-                if(await GetUpdatedJsonAndUpdateVM(updatedToken))
+                if (await GetUpdatedJsonAndUpdateVM(updatedToken))
                     ShowInfoMessageBox("Updates were available and were fetched", "Fetch success");
                 else
                     ShowInfoMessageBox("Updates were available but newly fetched templated were empty",
@@ -138,10 +140,9 @@ namespace LanguageTool.WordAddin
         {
             if (await ServerUpdater.GetUpdatedVersion(token))
             {
-                var vm = TemplateViewModel.GetInstance();
                 await Globals.ThisAddIn.Dispatcher.BeginInvoke(
                 DispatcherPriority.Background,
-                  new System.Action(() => vm.UpdateSnippets()));
+                  new System.Action(() => Messenger.Default.Send(new UpdateSnippetsMessage())));
                 return true;
             }
             return false;

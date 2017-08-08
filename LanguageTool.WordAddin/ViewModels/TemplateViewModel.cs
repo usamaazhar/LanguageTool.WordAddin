@@ -3,6 +3,7 @@ using LanguageTool.WordAddin.Common;
 using LanguageTool.WordAddin.Models;
 using LanguageTool.WordAddin.Properties;
 using Microsoft.Office.Interop.Word;
+using MVVMLight.Messaging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,20 +17,23 @@ using System.Windows.Input;
 
 namespace LanguageTool.WordAddin.ViewModels
 {
-   
+
     public class Templates
     {
         public List<SnippetItem> Snippets { get; set; }
     }
-    
+
     public class TemplateViewModel
     {
         public event Action _updateViewModel;
         private static TemplateViewModel _instance = new TemplateViewModel();
-        private TemplateViewModel()
+
+        public TemplateViewModel()
         {
             //_updateViewModel += TemplateViewModel__updateViewModel;
             LoadDataFromFile();
+
+            Messenger.Default.Register<UpdateSnippetsMessage>(this, (_) => UpdateSnippets());
         }
 
         private void TemplateViewModel__updateViewModel()
@@ -37,19 +41,19 @@ namespace LanguageTool.WordAddin.ViewModels
             UpdateSnippets();
         }
 
-        public static TemplateViewModel GetInstance()
-        {
-            return _instance;
-        }
-        public void UpdateSnippets ()
+        //public static TemplateViewModel GetInstance()
+        //{
+        //    return _instance;
+        //}
+
+        public void UpdateSnippets()
         {
             SnippetItems.Clear();
             LoadDataFromFile();
             NotifyPropertyChange(nameof(SnippetItems));
-
-
         }
-        public ObservableCollection<SnippetItem> SnippetItems { get; set; } 
+
+        public ObservableCollection<SnippetItem> SnippetItems { get; set; }
             = new ObservableCollection<SnippetItem>();
         void LoadDataFromFile()
         {
@@ -66,7 +70,7 @@ namespace LanguageTool.WordAddin.ViewModels
             {
                 Globals.ThisAddIn.AppLogger.Error
                     ("The Json Saved in file could not be parsed", ex);
-            }            
+            }
         }
 
 
@@ -82,8 +86,8 @@ namespace LanguageTool.WordAddin.ViewModels
             }
         }
 
-        public ICommand InsertCommand => 
-            new RelayCommand<SnippetItem>((_) => 
+        public ICommand InsertCommand =>
+            new RelayCommand<SnippetItem>((_) =>
             {
                 SelectedText = _.Body;
                 InsertTextToCurrentCursor(SelectedText);
